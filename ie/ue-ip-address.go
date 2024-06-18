@@ -41,6 +41,17 @@ func (i *IE) UEIPAddress() (*UEIPAddressFields, error) {
 			}
 		}
 		return nil, ErrIENotFound
+	case UpdatePDR:
+		ies, err := i.UpdatePDR()
+		if err != nil {
+			return nil, err
+		}
+		for _, x := range ies {
+			if x.Type == PDI {
+				return x.UEIPAddress()
+			}
+		}
+		return nil, ErrIENotFound
 	case PDI:
 		ies, err := i.PDI()
 		if err != nil {
